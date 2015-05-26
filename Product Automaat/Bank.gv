@@ -1,0 +1,17 @@
+digraph "Bank" {
+	"1" -> "2" [label="cancel"]
+	"1" -> "3" [label="redeem"]
+	"3" -> "4" [label="transfer"]
+	"1" -> "1" [label="pay"]
+	"2" -> "2" [label="pay"]
+	"3" -> "3" [label="pay"]
+	"4" -> "4" [label="pay"]
+	"1" -> "1" [label="ship"]
+	"2" -> "2" [label="ship"]
+	"3" -> "3" [label="ship"]
+	"4" -> "4" [label="ship"]
+	"3" -> "3" [label="redeem"]
+	"3" -> "3" [label="cancel"]
+	"4" -> "4" [label="redeem"]
+	"4" -> "4" [label="cancel"]
+}

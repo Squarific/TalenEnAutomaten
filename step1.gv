@@ -1,0 +1,12 @@
+digraph g{
+	rankdir=LR
+	-1[style="invis"];
+	-1->"q6";
+	"q6"->"q0"[label="e"];
+	"q6"->"q3"[label="e"];
+	"q0"->"q1"[label="a"];
+	"q1"->"q7"[label="e"];
+	"q3"->"q4"[label="b"];
+	"q4"->"q7"[label="e"];
+	"q7"[shape="doublecircle"];
+}

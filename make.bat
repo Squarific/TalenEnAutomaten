@@ -1,0 +1,1 @@
+g++ main.cpp ./REtoNFA/classes.cpp ./REtoNFA/REtoNFA.cpp ./mssc/dfArrow.cpp ./mssc/dfState.cpp ./mssc/mssc.cpp -o simplify

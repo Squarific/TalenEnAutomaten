@@ -2,13 +2,8 @@ digraph "new_DFA" {
 	rankdir=LR
 	-1[style="invis"];
 	-1->"q0,q3,q6";
-	"q0,q3,q6" -> "q1,q4,q7,q12,q15,q18" [label="a"]
-	"q0,q3,q6" -> "X" [label="b"]
-	"q1,q4,q7,q12,q15,q18" -> "X" [label="a"]
-	"q1,q4,q7,q12,q15,q18" -> "q13,q16,q19" [label="b"]
-	"q13,q16,q19" -> "X" [label="a"]
-	"q13,q16,q19" -> "X" [label="b"]
+	"q0,q3,q6" -> "q1,q4,q7" [label="a"]
+	"q1,q4,q7" -> "X" [label="a"]
 	"X" -> "X" [label="a"]
-	"X" -> "X" [label="b"]
-	"q13,q16,q19"[shape="doublecircle"];
+	"q1,q4,q7"[shape="doublecircle"];
 }

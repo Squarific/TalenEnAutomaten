@@ -1,1 +1,0 @@
-g++ convert.cpp ./Automaton/parsers.cpp ./Automaton/nodes.cpp ./Automaton/TinyXML/tinyxml.cpp ./Automaton/TinyXML/tinystr.cpp ./Automaton/TinyXML/tinyxmlerror.cpp ./Automaton/TinyXML/tinyxmlparser.cpp -o convert --std=c++11

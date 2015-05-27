@@ -1,0 +1,4 @@
+digraph "first_DFA" {
+	"q0,q3,q6q1,q7q4,q7X" -> "q0,q3,q6q1,q7q4,q7X" [label="a"]
+	"q0,q3,q6q1,q7q4,q7X" -> "q0,q3,q6q1,q7q4,q7X" [label="b"]
+}

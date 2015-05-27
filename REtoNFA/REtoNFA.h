@@ -34,8 +34,8 @@ string readregexfile(string path);
 
 nfa processinput(operandstack operands, operatorstack operators, const char* regex);
 
-void writeToDotFile(nfa& uitkomst);
+void writeToDotFile(nfa& uitkomst, string s);
 
-void REtoNFA(const char* regex);
+void REtoNFA(const char* regex, string s);
 
 #endif

@@ -18,7 +18,7 @@ using namespace std;
 typedef deque<state> states;
 typedef deque<dfState> dfStates;
 
-void msscWriteToDotFile(dfStates &outputstates, vector<char>& alfabet);
+void msscWriteToDotFile(dfStates &outputstates, vector<char>& alfabet, string s);
 
 bool stateexixsts(states &inputstates, int stateid);
 
@@ -42,4 +42,4 @@ bool intVectorEqTest(vector<int> &ints, vector<int> &ints2);
 
 void mssc(states& inputstates, dfStates& outputstates, vector<char>& alfabet);
 
-void ExecuteMssc(string inputpath);
+void executeMssc(string inputpath, string s);

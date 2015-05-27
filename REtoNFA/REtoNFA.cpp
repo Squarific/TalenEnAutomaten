@@ -248,9 +248,7 @@ nfa processinput(operandstack operands, operatorstack operators, const char* reg
 	}else{cout<<"werktneit"<<endl;nfa meaningless;return meaningless;}
 }
 
-void writeToDotFile(nfa& uitkomst){
-	
-	string s = "step1.gv";
+void writeToDotFile(nfa& uitkomst, string s){
     ofstream outputfile;
     outputfile.open(s.c_str());
 	bool writeToFile;
@@ -300,9 +298,9 @@ void writeToDotFile(nfa& uitkomst){
     cout << "RE to NFA: File saved." << endl;
 }
 
-void REtoNFA(const char* regex) {
+void REtoNFA(const char* regex, string s) {
 	operandstack OD;
 	operatorstack OT;
 	nfa uitkomst = processinput(OD, OT, regex);
-	writeToDotFile(uitkomst);
+	writeToDotFile(uitkomst, s);
 }

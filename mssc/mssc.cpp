@@ -21,10 +21,9 @@ string epsilonstring = "e";
 typedef deque<state> states;
 typedef deque<dfState> dfStates;
 
-void msscWriteToDotFile(dfStates &outputstates, vector<char>& alfabet){
+void msscWriteToDotFile(dfStates &outputstates, vector<char>& alfabet, string s){
 	
 	bool errorStateExists=false;
-	string s = "step2.gv";
     ofstream outputfile;
     outputfile.open(s.c_str());
 	bool writeToFile;
@@ -425,11 +424,11 @@ void mssc(states& inputstates, dfStates& outputstates, vector<char>& alfabet){
 	}
 }
 
-void ExecuteMssc(string inputpath) {	
+void executeMssc(string inputpath, string s) {	
 	states inputstates;
 	vector<char> alfabet;
 	readdotfile(inputpath, inputstates, alfabet);
 	dfStates outputstates;
 	mssc(inputstates,outputstates,alfabet);
-	msscWriteToDotFile(outputstates, alfabet);
+	msscWriteToDotFile(outputstates, alfabet, s);
 }

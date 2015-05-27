@@ -1,5 +1,6 @@
 #include "./REtoNFA/REtoNFA.h"
 #include "./mssc/mssc.h"
+#include "./TFA/Tfamain.h"
 
 int main (int argc, char *argv[]) {
 	if (argc != 2) {
@@ -8,9 +9,11 @@ int main (int argc, char *argv[]) {
 		return 1;
 	}
 
-	REtoNFA(argv[1]);
+	REtoNFA(argv[1], "step1.gv");
 
-	ExecuteMssc("step1.gv");
+	executeMssc("step1.gv", "step2.gv");
+
+	executeTFA("step2.gv", "step3.gv");
 
 	return 0;
 }

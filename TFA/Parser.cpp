@@ -8,7 +8,7 @@
 using namespace std;
 
 vector<State> parseAutomaton(const char* filename, State Er_state) {
-	std::string name, stateFrom, stateTo, stateName, line;
+	std::string name, stateFrom, stateTo, stateName, line, startState;
 
 	std::ifstream input;
 	input.open(filename);
@@ -17,6 +17,8 @@ vector<State> parseAutomaton(const char* filename, State Er_state) {
 	vector<State> states; 
 	
 	int linenumber = 0;
+	
+	vector<string> acceptState;
 
 	while (std::getline(input, line)) {
 		if (line.find("->") != -1) {
@@ -43,6 +45,13 @@ vector<State> parseAutomaton(const char* filename, State Er_state) {
 				pointers.push_back(make_pair(make_pair(State(stateTo), name), State(stateFrom)));
 			}
 			
+			else if (line.find("-1->") != -1) {
+				stateName = line;
+				stateName.erase(0, stateName.find("\"") + 1);
+				stateName.erase(stateName.find("\""), stateName.size());
+				startState = stateName;
+			}
+			
 			else {
 				std::cerr << "PARSING ERROR: Line " << linenumber + 1 << " has incorrect syntax: " << std::endl << line << std::endl
 				<< "No label found." << std::endl << std::endl;				
@@ -52,17 +61,16 @@ vector<State> parseAutomaton(const char* filename, State Er_state) {
 			stateName = line;
 			stateName.erase(0, stateName.find("\"") + 1);
 			stateName.erase(stateName.find("\""), stateName.size());
-			for (int state = 0; state < pointers.size(); state++) {
-				if (pointers[state].second.get_name() == stateName) {
-					pointers[state].second.set_acceptstate(true);
-				}
-			}
+			acceptStates.push_back(stateName);
+		}
+		else if (line.find("digraph") != -1) {
+		}
+		else if (line.find("rankdir") != -1) {
+		}
+		else if (line.find("[style=\"invis\"]") != -1) {
 		}
 		else if (line.find("}") != -1) {
 			break;
-		}
-		else if (line.find("digraph") != -1) {
-			continue;
 		}
 		else {
 			std::cerr << "PARSING ERROR: Line " << linenumber + 1 << " has incorrect syntax: " << std::endl << line << std::endl
@@ -70,6 +78,28 @@ vector<State> parseAutomaton(const char* filename, State Er_state) {
 		}
 		linenumber++;
 		
+	}
+	
+	for (vector<pair<pair<State, string>, State > >::iterator pointer = pointers.begin(); pointer != pointers.end(); pointer++ ) {
+		if (pointer->second.get_name() == startState) {
+			pointer->second.set_startstate(true);
+			
+		}
+		if (pointer->first.first.get_name() == startState) {
+			pointer->first.first.set_startstate(true);
+			
+		}
+	}
+	
+	for (vector<pair<pair<State, string>, State > >::iterator pointer = pointers.begin(); pointer != pointers.end(); pointer++ ) {
+		for (vector<string>::iterator accept = acceptStates.begin(); accept != acceptStates.end(); accept++) {
+			if (pointer->second.get_name() == *accept) {
+				pointer->second.set_acceptstate(true);
+			}
+			if (pointer->first.first.get_name() == *accept) {
+				pointer->first.first.set_acceptstate(true);
+			}
+		}
 	}
 	
 	vector<string> inputs;

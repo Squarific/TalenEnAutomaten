@@ -18,7 +18,7 @@ vector<State> parseAutomaton(const char* filename, State Er_state) {
 	
 	int linenumber = 0;
 	
-	vector<string> acceptState;
+	vector<string> acceptStates;
 
 	while (std::getline(input, line)) {
 		if (line.find("->") != -1) {

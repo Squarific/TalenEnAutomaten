@@ -85,6 +85,8 @@ void writeOutput(const char* filename, vector<State> states) {
 		}
 	}
 	outputFile << "}";
+
+	cout << "TFA: File saved." << std::endl;
 	
 	outputFile.close();	
 }

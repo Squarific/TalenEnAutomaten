@@ -138,17 +138,34 @@ vector<Node*> nodesFromDotFile (const char* filename) {
 				}
 
 				if (!fromAlreadyAdded) {
-					allStates.push_back(new Node(!start_set, false, from));
+					allStates.push_back(new Node(false, false, from));
 					start_set = true;
 				}
 
 				if (!toAlreadyAdded) {
-					allStates.push_back(new Node(!start_set, false, to));
+					allStates.push_back(new Node(false, false, to));
 					start_set = true;
 				}
+
 			} else {
-				std::cerr << "PARSING ERROR: incorrect syntax: " << std::endl << line << std::endl
-				<< "No label found." << std::endl << std::endl;				
+				if (line.find("-1->")) {
+					// stateTo
+					string to = line;
+					to.erase(0, to.find("\"") + 1);
+					to.erase(to.find("\""), to.size());
+
+					for(auto &state : allStates) {
+						if (state->name == to) {
+							state->accept = true;
+							continue;
+						}
+					}
+
+					allStates.push_back(new Node(true, false, to));
+				} else {
+					std::cerr << "PARSING ERROR: incorrect syntax: " << std::endl << line << std::endl
+					<< "No label found." << std::endl << std::endl;
+				}
 			}
 		} else if (line.find("}") != -1) {
 			break;
@@ -162,11 +179,11 @@ vector<Node*> nodesFromDotFile (const char* filename) {
 					state->accept = true;
 				}
 			}
-		} else if (line.find("digraph {") != -1) {
+		} else if (line.find("digraph") != -1) {
 			continue;
 		} else {
 			std::cerr << "PARSING ERROR: incorrect syntax: " << std::endl << line << std::endl
-			<< "No '->' found nor a doublecircle." << std::endl << std::endl;
+			<< "Had no idea what to do with this so I just ignored it." << std::endl << std::endl;
 		}
 	}
 

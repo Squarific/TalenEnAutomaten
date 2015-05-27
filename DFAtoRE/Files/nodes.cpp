@@ -46,7 +46,7 @@ void eliminateState (Node* state) {
 
 	// Check if there is a self reference in this state
 	// and sort all connections into tostate and fromstate
-	string repeating = "(";
+	string repeating = "";
 	bool firstRepeating = true;
 	for(auto &con : state->connections) {
 	    if (con.from == con.to && con.from == state) {
@@ -65,17 +65,37 @@ void eliminateState (Node* state) {
 	    }
 	}
 
-	repeating += ")*";
+	
+	// If the string that needs repeating is a single char we only need to add a *
+	if (repeating.length() > 1) {
+		repeating = "(" + repeating + ")*";
+	} else {
+		repeating += "*";
+	}
 
 	// Create a new connection for every start state
 	// and go to every end state
 	for(auto &tocon : toState) {
 		for(auto &fromcon : fromState) {
-			string newLabel = "(" + tocon.label + ")";
+			string newLabel = "";
+
+			// If the label contains a + then enclose it before adding
+			if (tocon.label.find(string("+")) != std::string::npos) {
+				newLabel += "(" + tocon.label + ")";
+			} else {
+				newLabel += tocon.label;
+			}
+
 			if (!firstRepeating) {
 				newLabel += repeating;
 			}
-			newLabel += "(" + fromcon.label + ")";
+
+			// If the label contains a + then enclose it before adding
+			if (fromcon.label.find(string("+")) != std::string::npos) {
+				newLabel += "(" + fromcon.label + ")";
+			} else {
+				newLabel += fromcon.label;
+			}
 
 			Connection newconnection = Connection(newLabel, tocon.from, fromcon.to);			
 
@@ -112,7 +132,7 @@ string createRegex (Node* acceptState) {
 
 	// Generate the repeating string, the
 	// incoming regex and the outgoing regex
-	string repeating = "(";
+	string repeating = "";
 	string incoming = "";
 	string outgoing = "";
 
@@ -123,6 +143,9 @@ string createRegex (Node* acceptState) {
 	bool hasRepeating = false;
 
 	for(auto &con : acceptState->connections) {
+		if (con.label == string("")) {
+    		continue;
+    	}
 	    if (con.from == con.to && con.from == acceptState) {
 	    	if (!firstRepeating) {
 	    		repeating += "+";
@@ -151,15 +174,34 @@ string createRegex (Node* acceptState) {
 	    }
 	}
 
-	repeating += ")*";
+	if (incoming.find(string("+")) != std::string::npos)
+		incoming = "(" + incoming + ")";
 
-	string regex = incoming;
-	
+	string together = "";
 	if (hasOutgoing)
-		regex += "(" + outgoing + incoming + ")*";
+		together = outgoing + incoming;
 
-	if (hasRepeating)
-		regex += repeating;
+	if (together.find(string("+")) != std::string::npos)
+		together = "(" + together + ")";
 
+	if (hasRepeating) {
+		if (repeating.find(string("+")) != std::string::npos)
+			repeating = "(" + repeating + ")";
+
+		if (hasOutgoing)
+			together += "+" + repeating;
+		else
+			together = repeating;
+	}
+
+	string regex = "";
+	regex += incoming;
+
+	if (together.length() > 1) {
+		regex += "(" + together + ")*";
+	} else if (together.length() == 1) {
+		regex += together + "*";
+	}
+	
 	return regex;
 }

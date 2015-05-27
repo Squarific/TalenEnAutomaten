@@ -62,7 +62,15 @@ void writeOutput(const char* filename, vector<State> states) {
 	ofstream outputFile;
 	outputFile.open(filename);
 	
-	outputFile << "digraph \"first_DFA\" {" << endl;
+	outputFile << "digraph \"new_DFA\" {" << endl;
+	outputFile << "\trankdir=LR" << endl;
+	outputFile << "\t-1[style=\"invis\"];" << endl;
+	
+	for (int state = 0; state < states.size(); state++) {
+		if (states[state].is_startstate() == true) {
+			outputFile << "\t-1->\"" << states[state].get_name() << "\";" << endl;
+		}
+	}
 	
 	for (int state = 0; state < states.size(); state++) {
 		for (int pointer = 0; pointer < states[state].get_pointers().size(); pointer++) {

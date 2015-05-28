@@ -1,0 +1,19 @@
+digraph "g_g" {
+	rankdir=LR
+	-1[style="invis"];
+	-1->"q0,q3,q6q12,q15,q18";
+	"q0,q3,q6q12,q15,q18" -> "q1,q4,q7q13,q19" [label="a"]
+	"q0,q3,q6q13,q19" -> "q1,q4,q7X" [label="a"]
+	"q0,q3,q6q16,q19" -> "q1,q4,q7X" [label="a"]
+	"q0,q3,q6X" -> "q1,q4,q7X" [label="a"]
+	"q1,q4,q7q12,q15,q18" -> "Xq13,q19" [label="a"]
+	"q1,q4,q7q13,q19" -> "XX" [label="a"]
+	"q1,q4,q7q16,q19" -> "XX" [label="a"]
+	"q1,q4,q7X" -> "XX" [label="a"]
+	"Xq12,q15,q18" -> "Xq13,q19" [label="a"]
+	"Xq13,q19" -> "XX" [label="a"]
+	"Xq16,q19" -> "XX" [label="a"]
+	"XX" -> "XX" [label="a"]
+	"q1,q4,q7q13,q19"[shape="doublecircle"];
+	"q1,q4,q7q16,q19"[shape="doublecircle"];
+}

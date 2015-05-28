@@ -1,0 +1,1 @@
+g++ Automaton.cpp FAParser.cpp PA.cpp Product.cpp -o Product

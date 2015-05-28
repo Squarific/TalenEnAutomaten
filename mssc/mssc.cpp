@@ -33,7 +33,7 @@ void msscWriteToDotFile(dfStates &outputstates, vector<char>& alfabet, string s)
     	writeToFile = false;
     }
     stringstream output;
-    output << "digraph g{\n\trankdir=LR\n";
+    output << "digraph \"g\"{\n\trankdir=LR\n";
 	for (dfStates::iterator it = outputstates.begin(); it!=outputstates.end(); ++it){
 		if(it->startstate==true){
 			output<<"\t-1[style=\"invis\"];";

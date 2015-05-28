@@ -6,10 +6,14 @@
 void convertToRegex(const char* filename) {
 
 	vector<Node*> allStates = nodesFromDotFile(filename);
+	bool beginIsAccept = false;
 
 	// Create one endstate
 	Node* newEndState = new Node(false, true);
 	for(auto &state : allStates) {
+		if (state->accept && state->begin)
+			beginIsAccept = true;
+
 		if (state->accept) {
 			Connection oldToNew = Connection("", state, newEndState);
 
@@ -29,7 +33,7 @@ void convertToRegex(const char* filename) {
 	// Find the end state and give the regex
 	for(auto &state : allStates) {
 		if (state->accept) {
-			cout << createRegex(state) << endl;
+			cout << createRegex(state) << "+ε" << endl;
 		}
 	}
 }

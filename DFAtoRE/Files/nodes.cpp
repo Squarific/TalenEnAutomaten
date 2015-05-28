@@ -32,6 +32,20 @@ void print_connections (vector<Connection> cons) {
     }
 }
 
+bool isOneBlock (string regex) {
+	// This function assumes the ( are paired with a ), if there is a syntax error
+	// this function may not work as intended
+	int open = 0;
+
+	for (char& c : regex) {
+		if (c == '(') open++;
+		if (c == ')') open--;
+		if (c == '+' && open < 1) return false;
+	}
+
+	return true;
+}
+
 void eliminateState (Node* state) {
 	// toState are the connections
 	// GOING TO the to be eliminated state
@@ -77,25 +91,22 @@ void eliminateState (Node* state) {
 	for(auto &tocon : toState) {
 		for(auto &fromcon : fromState) {
 			string newLabel = "";
-
-			// If the label contains a + then enclose it before adding
-			if (tocon.label.find(string("+")) != std::string::npos) {
-				newLabel += "(" + tocon.label + ")";
-			} else {
-				newLabel += tocon.label;
-			}
+			newLabel += tocon.label;
 
 			if (!firstRepeating) {
+				if (!isOneBlock(newLabel))
+					newLabel = "(" + newLabel + ")";
+
 				newLabel += repeating;
 			}
 
 			// If the label contains a + then enclose it before adding
-			if (fromcon.label.find(string("+")) != std::string::npos) {
-				newLabel += "(" + fromcon.label + ")";
-			} else {
+			if (newLabel.length() == 0 || isOneBlock(fromcon.label)){
 				newLabel += fromcon.label;
+			} else {
+				newLabel += "(" + fromcon.label + ")";
 			}
-
+			
 			Connection newconnection = Connection(newLabel, tocon.from, fromcon.to);
 
 			tocon.from->connections.push_back(newconnection);
@@ -168,7 +179,17 @@ string createRegex (Node* acceptState) {
 	    		hasRepeating = true;
 	    		firstRepeating = false;
 	    	}
-	    	repeating += "+" + con.label;
+
+	    	if (repeating.length() > 0 && !isOneBlock(con.label)) {
+	    		if (!isOneBlock(repeating)) {
+		    		repeating = "(" + repeating + ")";
+		    	}
+
+	    		repeating += "(" + con.label + ")";
+	    	} else {
+	    		repeating += con.label;
+	    	}
+
 	    } else if (con.from == acceptState) {
 	    	if (!firstOutgoing) {
 	    		outgoing += "+";
@@ -176,14 +197,33 @@ string createRegex (Node* acceptState) {
 	    		firstOutgoing = false;
 	    		hasOutgoing = true;
 	    	}
-	    	outgoing += con.label;
+
+	    	
+	    	if (outgoing.length() > 0 && !isOneBlock(con.label)) {
+	    		if (!isOneBlock(outgoing)) {
+		    		outgoing = "(" + outgoing + ")";
+		    	}
+
+	    		outgoing += "(" + con.label + ")";
+	    	} else {
+	    		outgoing += con.label;
+	    	}
 	    } else if (con.to == acceptState) {
 	    	if (!firstIncoming) {
 	    		incoming += "+";
 	    	} else {
 	    		firstIncoming = false;
 	    	}
-	    	incoming += con.label;
+
+	    	if (incoming.length() > 0 && !isOneBlock(con.label)) {
+	    		if (!isOneBlock(incoming)) {
+		    		incoming = "(" + incoming + ")";
+		    	}
+
+	    		incoming += "(" + con.label + ")";
+	    	} else {
+		    	incoming += con.label;	
+	    	}
 	    } else {
 	    	cerr << "There was a state added to a node that doesn't connect to this node" << endl;
 	    }
@@ -206,25 +246,34 @@ string createRegex (Node* acceptState) {
 		}
 	}
 
-	if (incoming.find(string("+")) != std::string::npos)
-		incoming = "(" + incoming + ")";
+	if (startRepeating.length() > 1) {
+		if (!isOneBlock(incoming))
+			incoming = "(" + incoming + ")";
 
-	if (startRepeating.length() > 1)
 		startRepeating = "(" + startRepeating + ")*";
-	else if (startRepeating.length() == 1)
+	}
+	else if (startRepeating.length() == 1) {
+		if (!isOneBlock(incoming))
+			incoming = "(" + incoming + ")";
+
 		startRepeating += "*";
+	}	
 
 	incoming += startRepeating;
 
 	string together = "";
-	if (hasOutgoing)
-		together = outgoing + incoming;
+	if (hasOutgoing) {
+		if (!isOneBlock(incoming))
+			incoming = "(" + incoming + ")";
 
-	if (together.find(string("+")) != std::string::npos)
-		together = "(" + together + ")";
+		if (!isOneBlock(outgoing))
+			outgoing = "(" + outgoing + ")";
+
+		together = outgoing + incoming;
+	}
 
 	if (hasRepeating) {
-		if (repeating.find(string("+")) != std::string::npos)
+		if (!isOneBlock(repeating))
 			repeating = "(" + repeating + ")";
 
 		if (hasOutgoing)
@@ -235,8 +284,6 @@ string createRegex (Node* acceptState) {
 
 	string regex = "";
 	regex += incoming;
-
-	std::cout << startRepeating << " and " << incoming << " and " << outgoing << " and " << repeating << std::endl;
 
 	if (together.length() > 1) {
 		regex += "(" + together + ")*";

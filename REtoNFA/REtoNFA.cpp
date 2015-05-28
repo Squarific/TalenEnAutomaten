@@ -243,9 +243,13 @@ nfa processinput(operandstack operands, operatorstack operators, const char* reg
 		}
 	}
    
-	if(operands.size()==1){
+	if (operands.size()==1) {
 		return operands.top();//normaal maar 1 nfa over op het einde,
-	}else{cout<<"werktneit"<<endl;nfa meaningless;return meaningless;}
+	} else {
+		cout << "We ended up with more than one nfa at the end. The generated nfa is meaningless." << endl;
+		nfa meaningless;
+		return meaningless;
+	}
 }
 
 void writeToDotFile(nfa& uitkomst, string s){

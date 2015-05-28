@@ -19,7 +19,7 @@ int main (int argc, char *argv[]) {
 		REtoNFA(argv[2], "step1b.gv");
 		executeMssc("step1a.gv", "step2a.gv");
 		executeMssc("step1b.gv", "step2b.gv");
-		Product("step2a.gv", "step2b.gv", "step3gv");
+		Product("step2a.gv", "step2b.gv", "step3.gv");
 		executeTFA("step3.gv", "step4.gv");
 		convertToRegex("step4.gv");		
 	}

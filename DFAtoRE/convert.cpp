@@ -11,7 +11,7 @@ void convertToRegex(const char* filename) {
 	Node* newEndState = new Node(false, true);
 	for(auto &state : allStates) {
 		if (state->accept) {
-			Connection oldToNew = Connection("ε", state, newEndState);
+			Connection oldToNew = Connection("", state, newEndState);
 
 			newEndState->addConnection(oldToNew);
 			state->addConnection(oldToNew);

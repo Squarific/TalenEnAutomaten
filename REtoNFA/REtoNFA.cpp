@@ -258,7 +258,7 @@ void writeToDotFile(nfa& uitkomst, string s){
     	writeToFile = false;
     }
     stringstream output;
-    output << "digraph g{\n\trankdir=LR\n";
+    output << "digraph \"g\"{\n\trankdir=LR\n";
 	for (deque<state>::iterator it = uitkomst.begin(); it!=uitkomst.end(); ++it){
 		if(it->startstate==true){
 			output<<"\t-1[style=\"invis\"];";

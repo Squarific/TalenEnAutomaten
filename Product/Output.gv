@@ -1,0 +1,15 @@
+digraph "new_DFA_new_DFA" {
+	rankdir=LR
+	-1[style="invis"];
+	-1->"q0,q3,q6q0,q3,q6";
+	"q0,q3,q6q0,q3,q6" -> "q1,q4,q7q1,q7q4,q7" [label="a"]
+	"q0,q3,q6q1,q7q4,q7" -> "q1,q4,q7X" [label="a"]
+	"q0,q3,q6X" -> "q1,q4,q7X" [label="a"]
+	"q1,q4,q7q0,q3,q6" -> "Xq1,q7q4,q7" [label="a"]
+	"q1,q4,q7q1,q7q4,q7" -> "XX" [label="a"]
+	"q1,q4,q7X" -> "XX" [label="a"]
+	"Xq0,q3,q6" -> "Xq1,q7q4,q7" [label="a"]
+	"Xq1,q7q4,q7" -> "XX" [label="a"]
+	"XX" -> "XX" [label="a"]
+	"q1,q4,q7q1,q7q4,q7"[shape="doublecircle"];
+}

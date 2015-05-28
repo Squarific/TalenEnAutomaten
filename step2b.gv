@@ -1,0 +1,15 @@
+digraph "g"{
+	rankdir=LR
+	-1[style="invis"];
+	-1->"q12,q15,q18";
+	"q12,q15,q18"->"q13,q19"[label="a"];
+	"q12,q15,q18"->"q16,q19"[label="b"];
+	"q13,q19"[shape="doublecircle"];
+	"q13,q19"->"X"[label="a"];
+	"q13,q19"->"X"[label="b"];
+	"q16,q19"[shape="doublecircle"];
+	"q16,q19"->"X"[label="a"];
+	"q16,q19"->"X"[label="b"];
+	"X"->"X"[label="a"];
+	"X"->"X"[label="b"];
+}

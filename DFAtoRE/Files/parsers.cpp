@@ -156,7 +156,7 @@ vector<Node*> nodesFromDotFile (const char* filename) {
 
 					for(auto &state : allStates) {
 						if (state->name == to) {
-							state->accept = true;
+							state->begin = true;
 							continue;
 						}
 					}

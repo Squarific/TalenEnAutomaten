@@ -64,7 +64,6 @@ void eliminateState (Node* state) {
 	    	cerr << "There was a state added to a node that doesn't connect to this node" << endl;
 	    }
 	}
-
 	
 	// If the string that needs repeating is a single char we only need to add a *
 	if (repeating.length() > 1) {
@@ -97,7 +96,7 @@ void eliminateState (Node* state) {
 				newLabel += fromcon.label;
 			}
 
-			Connection newconnection = Connection(newLabel, tocon.from, fromcon.to);			
+			Connection newconnection = Connection(newLabel, tocon.from, fromcon.to);
 
 			tocon.from->connections.push_back(newconnection);
 			fromcon.to->connections.push_back(newconnection);
@@ -105,18 +104,21 @@ void eliminateState (Node* state) {
 	}
 
 	// Remove all connections to the removed state from the other nodes
+	// TODO: delete nodes for memory management
 	for(auto &tocon : toState) {
-		for(vector<Connection>::iterator it = tocon.from->connections.begin(); it != tocon.from->connections.end(); ++it) {
-			if ((*it).from == state || (*it).to == state) {
+		for (vector<Connection>::iterator it = tocon.from->connections.begin(); it != tocon.from->connections.end(); ++it) {
+			if ((*it).to == state) {
 				tocon.from->connections.erase(it);
+				--it;
 			}
 		}
 	}
 
 	for(auto &fromcon : fromState) {
 		for(vector<Connection>::iterator it = fromcon.to->connections.begin(); it != fromcon.to->connections.end(); ++it) {
-			if ((*it).from == state || (*it).to == state) {
+			if ((*it).from == state) {
 				fromcon.to->connections.erase(it);
+				--it;
 			}
 		}
     }
@@ -130,6 +132,8 @@ string createRegex (Node* acceptState) {
 		cerr << "Error: Tried generating regex from non accept state" << endl;
 	}
 
+	Node* startState;
+
 	// Generate the repeating string, the
 	// incoming regex and the outgoing regex
 	string repeating = "";
@@ -142,10 +146,21 @@ string createRegex (Node* acceptState) {
 	bool hasOutgoing = false;
 	bool hasRepeating = false;
 
+	bool beginFound = false;
+
 	for(auto &con : acceptState->connections) {
-		if (con.label == string("")) {
+    	if (con.from->begin) {
+    		beginFound = true;
+    		startState = con.from;
+    	} else if (con.to->begin) {
+    		beginFound = true;
+    		startState = con.to;
+    	}
+
+    	if (con.label == string("")) {
     		continue;
     	}
+
 	    if (con.from == con.to && con.from == acceptState) {
 	    	if (!firstRepeating) {
 	    		repeating += "+";
@@ -174,8 +189,32 @@ string createRegex (Node* acceptState) {
 	    }
 	}
 
+	if (!beginFound) {
+		std::cerr << "No start state when generating regex, did the parsing fail?" << std::endl;
+		throw NoStartStateException();
+	}
+
+	string startRepeating = "";
+
+	for (auto& con : startState->connections) {
+		if (con.from == con.to && con.from == startState) {
+			if (startRepeating.length() > 0) {
+				startRepeating += "+" + con.label;
+			} else {
+				startRepeating += con.label;
+			}
+		}
+	}
+
 	if (incoming.find(string("+")) != std::string::npos)
 		incoming = "(" + incoming + ")";
+
+	if (startRepeating.length() > 1)
+		startRepeating = "(" + startRepeating + ")*";
+	else if (startRepeating.length() == 1)
+		startRepeating += "*";
+
+	incoming += startRepeating;
 
 	string together = "";
 	if (hasOutgoing)
@@ -197,11 +236,13 @@ string createRegex (Node* acceptState) {
 	string regex = "";
 	regex += incoming;
 
+	std::cout << startRepeating << " and " << incoming << " and " << outgoing << " and " << repeating << std::endl;
+
 	if (together.length() > 1) {
 		regex += "(" + together + ")*";
 	} else if (together.length() == 1) {
 		regex += together + "*";
 	}
-	
+
 	return regex;
 }

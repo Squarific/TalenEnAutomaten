@@ -3,6 +3,8 @@
 
 using namespace std;
 
+class NoStartStateException {};
+
 class Node;
 class Connection {
 public:

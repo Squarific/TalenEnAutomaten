@@ -2,7 +2,9 @@
 	<head>
 		<title>Regex Simplifier</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
-		<script type="text/javascript" src="index.js"></script>
+
+		<!-- Dot parser library -->
+		<script type="text/javascript" src="viz.js"></script>
 	</head>
 	<body>
 		<header>Regex Simplifier Tool</header>
@@ -16,14 +18,24 @@
 			<button>Simplify!</button>
 		</form>
 		<div class="results">
+			<div class="result-title">Used regex</div>
+			<div id="usedregex" class="result">None.</div>
 			<div class="result-title">Regex to NFA:</div>
-			<div class="result">First fill in a regex!</div>
+			<div class="result">
+				<svg id="step1"></svg>
+			</div>
 			<div class="result-title">MSSC:</div>
-			<div class="result">First fill in a regex!</div>
+			<div class="result">
+				<svg id="step2"></svg>
+			</div>
 			<div class="result-title">Table Filling:</div>
-			<div class="result">First fill in a regex!</div>
+			<div class="result">
+				<svg id="step3"></svg>
+			</div>
 			<div class="result-title">DFA to Regex:</div>
 			<div id="DFAToRegex" class="result">First fill in a regex!</div>
 		</div>
+
+		<script type="text/javascript" src="index.js"></script>
 	</body>
 </html>

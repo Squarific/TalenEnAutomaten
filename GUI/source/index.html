@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>Regex Simplifier</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script type="text/javascript" src="index.js"></script>
+	</head>
+	<body>
+		<header>Regex Simplifier Tool</header>
+		<form action="#" onsubmit="minifyRegex(document.getElementById('regex1').value, document.getElementById('regex2').value); return false;">
+			<label for="regex1">First regex</label>
+			<input id="regex1" type="text" />
+
+			<label for="regex2">Optional second regex (to create product)</label>
+			<input id="regex2" type="text" />
+
+			<button>Simplify!</button>
+		</form>
+		<div class="results">
+			<div class="result-title">Regex to NFA:</div>
+			<div class="result">First fill in a regex!</div>
+			<div class="result-title">MSSC:</div>
+			<div class="result">First fill in a regex!</div>
+			<div class="result-title">Table Filling:</div>
+			<div class="result">First fill in a regex!</div>
+			<div class="result-title">DFA to Regex:</div>
+			<div class="result">First fill in a regex!</div>
+		</div>
+	</body>
+</html>

@@ -33,7 +33,13 @@ void convertToRegex(const char* filename) {
 	// Find the end state and give the regex
 	for(auto &state : allStates) {
 		if (state->accept) {
-			cout << createRegex(state) << "+ε" << endl;
+			cout << createRegex(state);
+
+			if (beginIsAccept) {
+				cout << "+ε";
+			}
+
+			cout << endl;
 		}
 	}
 }

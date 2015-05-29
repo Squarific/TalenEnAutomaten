@@ -1,0 +1,7 @@
+digraph "g"{
+	rankdir=LR
+	-1[style="invis"];
+	-1->"q79";
+	"q79"->"q80"[label="a"];
+	"q80"[shape="doublecircle"];
+}

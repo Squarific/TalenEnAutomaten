@@ -109,6 +109,4 @@ void Automaton::writeToFile(const char* filename) {
 
 	// Closing bracket
 	output << "}" << std::endl;
-
-	std::cout << "PRODUCT: File saved." << std::endl;
 }

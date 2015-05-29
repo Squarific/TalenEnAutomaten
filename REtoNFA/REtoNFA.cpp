@@ -299,7 +299,6 @@ void writeToDotFile(nfa& uitkomst, string s){
     } else {
     	cerr << "ERROR: RE to NFA: Could not open file." << endl;
     }
-    cout << "RE to NFA: File saved." << endl;
 }
 
 void REtoNFA(const char* regex, string s) {

@@ -156,7 +156,6 @@ void msscWriteToDotFile(dfStates &outputstates, vector<char>& alfabet, string s)
     } else {
     	cout << "ERROR: MSSC: Could not open file." << endl;
     }
-    cout << "MSSC: File saved." << endl;
 }
 
 bool stateexixsts(states &inputstates, int stateid){

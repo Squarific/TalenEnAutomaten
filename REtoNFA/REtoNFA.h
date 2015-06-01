@@ -36,6 +36,8 @@ nfa processinput(operandstack operands, operatorstack operators, const char* reg
 
 void writeToDotFile(nfa& uitkomst, string s);
 
+string concatationExplicitizer(string regex);
+
 void REtoNFA(const char* regex, string s);
 
 #endif

@@ -332,8 +332,10 @@ void writeToDotFile(nfa& uitkomst, string s){
 }
 
 void REtoNFA(const char* regex, string s) {
+	string reg = regex;
+	reg = concatationExplicitizer(reg);
 	operandstack OD;
 	operatorstack OT;
-	nfa uitkomst = processinput(OD, OT, regex);
+	nfa uitkomst = processinput(OD, OT, reg.c_str());
 	writeToDotFile(uitkomst, s);
 }

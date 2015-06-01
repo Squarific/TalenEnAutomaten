@@ -301,7 +301,15 @@ void eclose(states& inputstates, int id, vector<int> &ecloseids){
 
 	for(vector<arrow>::iterator i= start->arrows.begin(); i != start->arrows.end(); i++){
 		if (i->input==epsilonstring){
-			eclose(inputstates, i->nextstate.id, ecloseids);
+			bool in2 = false;
+			for(vector<int>::iterator k = ecloseids.begin(); k!= ecloseids.end(); k++){
+				if(*k == i->nextstate.id){
+					in2 = true;
+				}
+			}
+			if(in2==false){
+				eclose(inputstates, i->nextstate.id, ecloseids);
+			}
 		}
 	}
 }

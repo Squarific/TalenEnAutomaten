@@ -113,6 +113,36 @@ nfa star(nfa &n1){
 	n1.push_back(newend);
 	return n1;
 }
+
+string concatationExplicitizer(string regex){
+
+	string output;
+	string dot = ".";
+	string end = regex.substr (regex.size()-1,1);
+
+	for(int i = 0; i!= regex.size()-1;i++){
+
+  		output.append(regex.begin()+i,regex.begin()+i+1);  
+
+
+		if(regex[i] != '(' and regex[i] != '.' and regex[i] != '+'){
+		//niet openhaak, punt of plus -> wel symbool, geslotenhaak of ster.
+		// Op deze manier moet we niet alle mogelijk symbolen definieren.			
+
+			if(regex[i+1] != ')' and regex[i+1] != '*' and regex[i+1] != '.' and regex[i+1] != '+'){
+
+				output.append(dot);
+
+			}
+		}
+	}
+
+	output.append(end);
+
+	return output;
+
+}
+
 string readregexfile(string path){
 	int l = 200;
 	ifstream input;
@@ -122,7 +152,7 @@ string readregexfile(string path){
 	input.getline(buffer,l);
 	string output = buffer;
 	input.close();
-	return output;
+	return concatationExplicitizer(output);
 }
 
 nfa processinput(operandstack operands, operatorstack operators, const char* regex){

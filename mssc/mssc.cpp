@@ -15,8 +15,8 @@
 
 using namespace std;
 
-char epsilon = 'ε';
-string epsilonstring = "ε";
+char epsilon = 'e';
+string epsilonstring = "e";
 
 typedef deque<state> states;
 typedef deque<dfState> dfStates;

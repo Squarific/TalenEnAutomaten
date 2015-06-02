@@ -1,5 +1,5 @@
 //assuming syntax correctness and overall validity of input regex
-//met een expliciete '.' voor concatenation, en kleine 'ε' voor epsilon transitie/lege string
+//met een expliciete '.' voor concatenation, en kleine 'e' voor epsilon transitie/lege string
 //geinformeerd door:
 //http://www.codeproject.com/Articles/5412/Writing-own-regular-expression-parser
 //http://www.geeksforgeeks.org/expression-evaluation/
@@ -56,7 +56,7 @@ nfa mergenfa(nfa &n1, nfa &n2){
 //neem aan dat startstates vanvoorzitten en acceptstates achteraan
 nfa plusop(nfa &n1, nfa &n2){
 
-	char epsilon = 'ε';
+	char epsilon = 'e';
 
 	nfa output;
 	n1.front().resetstartstate();
@@ -80,7 +80,7 @@ nfa plusop(nfa &n1, nfa &n2){
 
 nfa dot(nfa &n1, nfa &n2){
 
-	char epsilon = 'ε';
+	char epsilon = 'e';
 
 	n1.front().setstartstate();
 	n1.back().resetacceptstate();
@@ -98,7 +98,7 @@ nfa dot(nfa &n1, nfa &n2){
 
 nfa star(nfa &n1){
 
-	char epsilon = 'ε';
+	char epsilon = 'e';
 	state newstart;
 	state newend;
 	newstart.setstartstate();
@@ -156,7 +156,7 @@ string readregexfile(string path){
 }
 
 nfa processinput(operandstack operands, operatorstack operators, const char* regex){
-	char epsilon = 'ε';
+	char epsilon = 'e';
 	string input(regex);
 
 	if(input.empty()){
@@ -167,7 +167,7 @@ nfa processinput(operandstack operands, operatorstack operators, const char* reg
 		total.push_back(end); 
 		return total;
 	}
-	if(input.at(0)=='ε' and input.size()==1){
+	if(input.at(0)=='e' and input.size()==1){
 		state begin; 
 		state end;
 		begin.addarrow(epsilon, end);

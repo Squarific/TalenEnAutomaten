@@ -3,6 +3,7 @@
 #include "./TFA/Tfamain.h"
 #include "./DFAtoRE/convert.h"
 #include "./Product/Product.h"
+#include "./Beautify/Beautify.h"
 
 int main (int argc, char *argv[]) {
 	// Simplify

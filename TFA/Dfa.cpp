@@ -27,14 +27,14 @@ vector <vector <int> > Dfa::get_pointers (vector <int> input) {
 		vector <int> place;
 		for (int state = 0; state < states.size(); state++) {
 			if (states[input[0]].get_pointers()[pointers].get_nextState()->get_name() == "ERROR") {
-				place.push_back(state);
+				place.push_back(states.size());
 			}
 			else if (states[input[0]].get_pointers()[pointers].get_nextState()->get_name() == states[state].get_name()) {
 				place.push_back(state);
 				
 			}
 			if (states[input[1]].get_pointers()[pointers].get_nextState()->get_name() == "ERROR") {
-				place.push_back(state);
+				place.push_back(states.size());
 			}
 			else if (states[input[1]].get_pointers()[pointers].get_nextState()->get_name() == states[state].get_name()) {
 				place.push_back(state);
